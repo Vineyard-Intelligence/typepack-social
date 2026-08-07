@@ -1,0 +1,487 @@
+{
+  "identifier": "run.vineyard.typepacks.social",
+  "content_type": "vineyard:typepack",
+  "version": "1.0.0",
+  "name": "Social Media",
+  "description": "Social-media entities (accounts, posts, hashtags, groups, media) and their relationships — platform-agnostic, with a `platform` discriminator field on every entity. Attribution to a person or organization stays in the Identity typepack (`identity.controls`); this pack owns only what happens inside a platform.",
+  "authors": [
+    {
+      "name": "VINEYARD",
+      "url": "https://vineyard.run"
+    }
+  ],
+  "license": "Apache-2.0",
+  "distribution": {
+    "kind": "git",
+    "repository": "https://github.com/Vineyard-Intelligence/typepack-social",
+    "ref": "v1.0.0",
+    "path": "typepacks/social.json"
+  },
+  "marketing_url": "https://vineyard.run/typepacks/social",
+  "thumbnail_url": "https://vineyard.run/typepacks/social/icon.png",
+  "types": [
+    {
+      "category": "social",
+      "name": "account",
+      "display_name": "Social Account",
+      "description": "A social-media account (X/Twitter, Mastodon, Threads, Bluesky, ...). Attribution to a person or organization lives in the Identity typepack via `identity.controls`; this node is the platform-side identity only.",
+      "label_property": "username",
+      "identity_properties": [
+        "platform",
+        "username"
+      ],
+      "label_template": "{username} · {platform}",
+      "icon": "at-sign",
+      "color": "#38bdf8",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "Platform or service (e.g. x, mastodon, threads, bluesky).",
+          "optional": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username or handle on the platform.",
+          "optional": false
+        },
+        "user_id": {
+          "type": "string",
+          "description": "Stable platform-scoped account id (never changes when the username does).",
+          "optional": true
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Display name shown on the profile.",
+          "optional": true
+        },
+        "profile_url": {
+          "type": "url",
+          "description": "Canonical profile URL.",
+          "optional": true
+        },
+        "avatar_url": {
+          "type": "url",
+          "description": "Profile picture URL.",
+          "optional": true
+        },
+        "bio": {
+          "type": "text",
+          "description": "Profile bio / description.",
+          "optional": true
+        },
+        "location": {
+          "type": "string",
+          "description": "Profile location string (as self-declared).",
+          "optional": true
+        },
+        "website": {
+          "type": "url",
+          "description": "Website linked on the profile.",
+          "optional": true
+        },
+        "followers": {
+          "type": "integer",
+          "description": "Follower count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "following": {
+          "type": "integer",
+          "description": "Following count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "post_count": {
+          "type": "integer",
+          "description": "Number of posts by the account.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Verified / blue-checked on the platform.",
+          "optional": true
+        },
+        "created_date": {
+          "type": "date",
+          "description": "Account creation date.",
+          "optional": true
+        }
+      }
+    },
+    {
+      "category": "social",
+      "name": "post",
+      "display_name": "Post",
+      "description": "A public message on a social platform (X/Twitter, Mastodon, Threads, Bluesky, ...).",
+      "label_property": "post_id",
+      "identity_properties": [
+        "platform",
+        "post_id"
+      ],
+      "label_template": "{platform} · {post_id}",
+      "icon": "message-circle",
+      "color": "#818cf8",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "Platform or service (e.g. x, mastodon, threads, bluesky).",
+          "optional": false
+        },
+        "post_id": {
+          "type": "string",
+          "description": "Stable platform-scoped post id.",
+          "optional": false
+        },
+        "url": {
+          "type": "url",
+          "description": "Canonical permalink to the post.",
+          "optional": true
+        },
+        "author": {
+          "type": "reference",
+          "description": "The account that authored the post.",
+          "optional": true,
+          "reference": {
+            "target": "social.account"
+          }
+        },
+        "content": {
+          "type": "text",
+          "description": "Full text content of the post.",
+          "optional": true
+        },
+        "created_at": {
+          "type": "datetime",
+          "description": "Post creation time.",
+          "optional": true
+        },
+        "language": {
+          "type": "string",
+          "description": "Language code of the content.",
+          "optional": true
+        },
+        "like_count": {
+          "type": "integer",
+          "description": "Like / favourite count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "repost_count": {
+          "type": "integer",
+          "description": "Repost / retweet / boost count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "reply_count": {
+          "type": "integer",
+          "description": "Reply count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "conversation_id": {
+          "type": "string",
+          "description": "Thread / conversation id (platform-scoped).",
+          "optional": true
+        },
+        "media_urls": {
+          "type": "text",
+          "description": "Media URLs attached to the post (one per line or comma-separated).",
+          "optional": true
+        }
+      }
+    },
+    {
+      "category": "social",
+      "name": "hashtag",
+      "display_name": "Hashtag",
+      "description": "A hashtag / topic tag used in posts — a pivot for campaign and trend clustering.",
+      "label_property": "hashtag",
+      "identity_properties": [
+        "platform",
+        "hashtag"
+      ],
+      "label_template": "{platform} · {hashtag}",
+      "icon": "hash",
+      "color": "#f472b6",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "Platform or service.",
+          "optional": false
+        },
+        "hashtag": {
+          "type": "string",
+          "description": "The hashtag without the leading #.",
+          "optional": false
+        },
+        "first_seen_at": {
+          "type": "datetime",
+          "description": "When the hashtag was first observed.",
+          "optional": true
+        }
+      }
+    },
+    {
+      "category": "social",
+      "name": "group",
+      "display_name": "Group",
+      "description": "A social-media community or channel (X Community, Telegram channel, Discord server, Facebook group, ...).",
+      "label_property": "name",
+      "identity_properties": [
+        "platform",
+        "group_id"
+      ],
+      "label_template": "{name} · {platform}",
+      "icon": "users",
+      "color": "#a3e635",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "Platform or service.",
+          "optional": false
+        },
+        "group_id": {
+          "type": "string",
+          "description": "Stable platform-scoped group id.",
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "description": "Group / channel name.",
+          "optional": false
+        },
+        "url": {
+          "type": "url",
+          "description": "Canonical group URL.",
+          "optional": true
+        },
+        "description": {
+          "type": "text",
+          "description": "Group description.",
+          "optional": true
+        },
+        "member_count": {
+          "type": "integer",
+          "description": "Member count.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "created_date": {
+          "type": "date",
+          "description": "Group creation date.",
+          "optional": true
+        }
+      }
+    },
+    {
+      "category": "social",
+      "name": "media",
+      "display_name": "Media",
+      "description": "Media attached to a post (image, video, GIF, audio). The media URL is the identity — the same asset is the same node even when it appears in different posts.",
+      "label_property": "media_url",
+      "identity_properties": [
+        "media_url"
+      ],
+      "icon": "image",
+      "color": "#fbbf24",
+      "properties": {
+        "media_url": {
+          "type": "url",
+          "description": "Direct URL of the media asset.",
+          "optional": false
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platform the media was observed on.",
+          "optional": true
+        },
+        "media_type": {
+          "type": "enum",
+          "description": "Kind of media.",
+          "optional": true,
+          "enum": [
+            "image",
+            "video",
+            "gif",
+            "audio",
+            "unknown"
+          ]
+        },
+        "thumbnail_url": {
+          "type": "url",
+          "description": "Thumbnail / preview URL.",
+          "optional": true
+        },
+        "alt_text": {
+          "type": "string",
+          "description": "Accessibility alt text supplied by the author.",
+          "optional": true
+        },
+        "width": {
+          "type": "integer",
+          "description": "Width in pixels.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        },
+        "height": {
+          "type": "integer",
+          "description": "Height in pixels.",
+          "optional": true,
+          "validator": {
+            "min": 0
+          }
+        }
+      }
+    }
+  ],
+  "edge_types": [
+    {
+      "category": "social",
+      "name": "posted_by",
+      "label": "posted by",
+      "display_name": "Posted By",
+      "description": "An account authored a post.",
+      "from": [
+        "social.account"
+      ],
+      "to": [
+        "social.post"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "replies_to",
+      "label": "replies to",
+      "display_name": "Replies To",
+      "description": "A post is a reply to another post.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.post"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "reposted",
+      "label": "reposted",
+      "display_name": "Reposted",
+      "description": "A post reposts / retweets / boosts another post.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.post"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "quoted",
+      "label": "quoted",
+      "display_name": "Quoted",
+      "description": "A post quotes another post (quote-tweet).",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.post"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "mentions",
+      "label": "mentions",
+      "display_name": "Mentions",
+      "description": "A post mentions an account.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.account"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "follows",
+      "label": "follows",
+      "display_name": "Follows",
+      "description": "An account follows another account.",
+      "directed": true,
+      "from": [
+        "social.account"
+      ],
+      "to": [
+        "social.account"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "uses_hashtag",
+      "label": "uses hashtag",
+      "display_name": "Uses Hashtag",
+      "description": "A post uses a hashtag.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.hashtag"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "member_of",
+      "label": "member of",
+      "display_name": "Member Of",
+      "description": "An account is a member of a group or channel.",
+      "from": [
+        "social.account"
+      ],
+      "to": [
+        "social.group"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "posted_in",
+      "label": "posted in",
+      "display_name": "Posted In",
+      "description": "A post was published in a group or channel.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.group"
+      ]
+    },
+    {
+      "category": "social",
+      "name": "contains_media",
+      "label": "contains media",
+      "display_name": "Contains Media",
+      "description": "A post contains a media asset.",
+      "from": [
+        "social.post"
+      ],
+      "to": [
+        "social.media"
+      ]
+    }
+  ]
+}
