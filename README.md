@@ -30,7 +30,7 @@ Mastodon·Threads·Bluesky 등을 같은 타입으로 담습니다. 플랫폼별
 
 - **귀속은 이 팩이 소유하지 않습니다.** 계정 ↔ 사람/조직 연결은 Identity 팩의
   `identity.controls`가 담당하고, 이 팩은 **플랫폼 안에서 일어나는 일**만 다룹니다.
-  `identity.user_account`와 겹쳐 보이지만 역할이 다릅니다 — 전자는 크로스플랫폼 페르소나
+  `identity.account`와 겹쳐 보이지만 역할이 다릅니다 — 전자는 크로스플랫폼 페르소나
   귀속용 얇은 노드, `social.account`는 팔로워/바이오/게시물 수까지 담는 플랫폼 측 프로필입니다.
 - **`social.media`의 정체성은 URL 하나뿐**입니다(`platform` 미포함). 같은 자산이 여러 게시글에
   나타나도 한 노드로 모여야 재게시 추적이 됩니다.
