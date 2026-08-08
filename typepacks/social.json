@@ -1,7 +1,7 @@
 {
   "identifier": "run.vineyard.typepacks.social",
   "content_type": "vineyard:typepack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Social Media",
   "description": "Social-media entities (accounts, posts, hashtags, groups, media) and their relationships — platform-agnostic, with a `platform` discriminator field on every entity. Attribution to a person or organization stays in the Identity typepack (`identity.controls`); this pack owns only what happens inside a platform.",
   "authors": [
@@ -14,7 +14,7 @@
   "distribution": {
     "kind": "git",
     "repository": "https://github.com/Vineyard-Intelligence/typepack-social",
-    "ref": "v1.0.0",
+    "ref": "v1.1.0",
     "path": "typepacks/social.json"
   },
   "marketing_url": "https://vineyard.run/typepacks/social",
@@ -37,12 +37,14 @@
         "platform": {
           "type": "string",
           "description": "Platform or service (e.g. x, mastodon, threads, bluesky).",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "username": {
           "type": "string",
           "description": "Username or handle on the platform.",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "user_id": {
           "type": "string",
@@ -132,7 +134,8 @@
         "platform": {
           "type": "string",
           "description": "Platform or service (e.g. x, mastodon, threads, bluesky).",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "post_id": {
           "type": "string",
@@ -220,12 +223,14 @@
         "platform": {
           "type": "string",
           "description": "Platform or service.",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "hashtag": {
           "type": "string",
           "description": "The hashtag without the leading #.",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "first_seen_at": {
           "type": "datetime",
@@ -251,7 +256,8 @@
         "platform": {
           "type": "string",
           "description": "Platform or service.",
-          "optional": false
+          "optional": false,
+          "case_insensitive": true
         },
         "group_id": {
           "type": "string",
