@@ -147,14 +147,6 @@
           "description": "Canonical permalink to the post.",
           "optional": true
         },
-        "author": {
-          "type": "reference",
-          "description": "The account that authored the post.",
-          "optional": true,
-          "reference": {
-            "target": "social.account"
-          }
-        },
         "content": {
           "type": "text",
           "description": "Full text content of the post.",
