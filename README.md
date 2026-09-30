@@ -36,8 +36,7 @@ Mastodon·Threads·Bluesky 등을 같은 타입으로 담습니다. 플랫폼별
   나타나도 한 노드로 모여야 재게시 추적이 됩니다.
 - **`media_type`은 닫힌 enum**(`image`/`video`/`gif`/`audio`/`unknown`)입니다. 수집 플러그인은
   플랫폼 고유 표기(X의 `photo`, `animated_gif` 등)를 여기에 **매핑해서** 넣어야 하며, 모르는
-  값은 새 enum 멤버를 만들지 말고 `unknown`으로 보냅니다. 백엔드는 `Node.data`를 검증하지
-  않으므로 이 규칙을 깨도 아무것도 막아주지 않습니다.
+  값은 새 enum 멤버를 만들지 말고 `unknown`으로 보냅니다.
 - **MAJOR 버전**: 타입 제거/정체성 변경 시에만. 프로퍼티·엣지 추가는 minor(additive).
 
 ## 검증
@@ -46,10 +45,6 @@ Mastodon·Threads·Bluesky 등을 같은 타입으로 담습니다. 플랫폼별
 python3 -m pip install jsonschema
 python3 -c "import json, jsonschema; jsonschema.validate(json.load(open('typepacks/social.json')), json.load(open('../registry/schemas/typepack.schema.json')))"
 ```
-
-## 배포
-
-`publish-packs.sh typepack-social` → 출력된 커밋 SHA를 `registry/registry/community-typepacks.json`에 고정 후 CI 검증.
 
 ## 라이선스
 
